@@ -22,6 +22,7 @@ import { useAuthStore } from '@/stores';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/toast';
 import { sliceName } from '@/utils/short-name';
 
 import { useRouter } from 'vue-router';
@@ -39,6 +40,12 @@ const props = defineProps<ICardProps>();
 
 const logout = async () => {
      await authStore.logout();
+
+     toast({
+          title: 'Sign Out',
+          description: 'You have successfully logged out.',
+     });
+
      router.push('/login');
 };
 </script>

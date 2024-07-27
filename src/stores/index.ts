@@ -12,26 +12,10 @@ import {
 } from 'firebase/auth';
 import { toast } from '@/components/ui/toast';
 import { useLocalStorage } from '@vueuse/core';
-
-interface UserInfo {
-     user: User | any;
-     isAuthenticated: boolean;
-     token: string;
-}
-
-interface UserValues {
-     name?: string;
-     email: string;
-     password: string;
-}
-
-interface AuthState {
-     isAuth: UserInfo;
-     error: string | null;
-}
+import type { IUser, IAuth, IUserValues } from '@/interfaces/index';
 
 export const useAuthStore = defineStore('auth', {
-     state: (): AuthState => ({
+     state: (): IAuth => ({
           isAuth: useLocalStorage('user', {
                user: null,
                isAuthenticated: false,
@@ -41,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
      }),
 
      actions: {
-          async createWithEmail(values: UserValues) {
+          async createWithEmail(values: IUserValues) {
                try {
                     const result: any = await createUserWithEmailAndPassword(
                          auth,
@@ -103,7 +87,7 @@ export const useAuthStore = defineStore('auth', {
                }
           },
 
-          async signInWithEmail(values: UserValues) {
+          async signInWithEmail(values: IUserValues) {
                try {
                     const result: any = await signInWithEmailAndPassword(
                          auth,
