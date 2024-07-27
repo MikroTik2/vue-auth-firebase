@@ -1,18 +1,15 @@
 <template>
      <Card class="p-6 items-center flex gap-4">
           <Avatar>
-               <AvatarImage
-                    :src="authStore.isAuth.user.pictureURL"
-                    :alt="`photo-user-${authStore.isAuth.user.displayName}`"
-               />
-               <AvatarFallback>{{ sliceName() }}</AvatarFallback>
+               <AvatarImage :src="props.pictureURL" :alt="`photo-user-${props.displayName}`" />
+               <AvatarFallback>{{ sliceName(props.displayName) }}</AvatarFallback>
           </Avatar>
           <div class="pr-4 border-border border-r">
                <h2 class="font-bold">
-                    {{ authStore.isAuth.user.displayName }}
+                    {{ props.displayName }}
                </h2>
                <h2 class="text-muted-foreground leading-3 text-[12px]">
-                    {{ authStore.isAuth.user.email }}
+                    {{ props.email }}
                </h2>
           </div>
 
@@ -25,24 +22,23 @@ import { useAuthStore } from '@/stores';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { ref } from 'vue';
+import { sliceName } from '@/utils/short-name';
 
 import { useRouter } from 'vue-router';
-
-const split_name = ref<string>('');
 
 const authStore = useAuthStore();
 const router = useRouter();
 
-const logout = () => {
-     authStore.logout();
+interface ICardProps {
+     displayName: string;
+     email: string;
+     pictureURL: string;
+}
+
+const props = defineProps<ICardProps>();
+
+const logout = async () => {
+     await authStore.logout();
      router.push('/login');
-};
-
-const sliceName = () => {
-     const firstname = authStore.isAuth.user.displayName.split(' ')[0];
-     const lastname = authStore.isAuth.user.displayName.split(' ')[1];
-
-     return (split_name.value = `${firstname.charAt(0).toUpperCase()}${lastname?.charAt(0)?.toUpperCase()}`);
 };
 </script>
