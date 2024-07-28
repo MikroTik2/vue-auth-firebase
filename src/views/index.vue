@@ -3,11 +3,13 @@
           <div class="flex gap-4 flex-col items-center">
                <img class="w-[120px] h-[120px]" src="/svg/successfully.svg" alt="successfully" />
                <h1 class="text-center font-medium">
-                    Hello - <b>{{ authStore.isAuth.user.displayName }}</b
+                    Hello -
+                    <b v-if="authStore.isAuth.user">{{ authStore.isAuth.user.displayName }}</b
                     >, you successfully authentication in our app
                </h1>
 
                <UserCard
+                    v-if="authStore.isAuth.user"
                     :displayName="authStore.isAuth.user.displayName"
                     :email="authStore.isAuth.user.email"
                     :pictureURL="authStore.isAuth.user.pictureURL"
